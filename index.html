@@ -7,8 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="icon" type="image/png" href="assets/fuunio-favicon.png">
-    <link rel="shortcut icon" type="image/png" href="assets/fuunio-favicon.png">
+    <link rel="icon" type="image/png" href="./assets/fuunio-favicon.png">
+    <link rel="shortcut icon" type="image/png" href="./assets/fuunio-favicon.png">
     <style>
         /* Fuunio (fuunio.com)
          * © 2026 Fuunio Team. All rights reserved.
@@ -61,16 +61,33 @@
             display: flex; align-items: center; gap: 10px; font-size: 1.3rem; font-weight: 800;
             color: var(--text-primary); white-space: nowrap; cursor: pointer;
             transition: transform var(--transition-fast);
+            min-width: 0; max-width: 100%;
         }
         .logo:hover { transform: scale(1.02); }
         .logo-text {
             display: inline-flex; align-items: center; line-height: 1;
             letter-spacing: 0; text-shadow: 0 0 14px rgba(164, 230, 44, 0.22);
+            min-width: 0; overflow: hidden; text-overflow: ellipsis;
+        }
+        .logo.using-wide-logo .logo-text { display:none; }
+        .logo-img,
+        .logo-img-fallback {
+            width: 42px; height: 42px; object-fit: contain; flex: 0 0 auto;
         }
         .logo-img {
-            width: 42px; height: 42px; object-fit: contain; flex: 0 0 auto;
             filter: drop-shadow(0 0 10px rgba(164, 230, 44, 0.34));
         }
+        .logo-img.using-wide-fallback {
+            width: min(172px, 32vw); max-width: 172px; object-fit: contain;
+        }
+        .logo-img-fallback {
+            display:inline-flex; align-items:center; justify-content:center; border-radius:14px;
+            color:#0f172a; font-family:'Orbitron', sans-serif; font-size:1.35rem; font-weight:900;
+            background:radial-gradient(circle at 30% 22%, #fff 0 13%, transparent 14%),
+                       linear-gradient(135deg, #a4e62c, #38bdf8 56%, #a855f7);
+            box-shadow:0 0 10px rgba(164,230,44,0.34), inset 0 1px 0 rgba(255,255,255,0.45);
+        }
+        .logo-img-fallback[hidden] { display:none; }
         .hamburger { display: none; width: 40px; height: 40px; background: transparent; color: var(--text-primary); font-size: 1.3rem; border-radius: 8px; align-items: center; justify-content: center; flex-shrink:0; }
         .hamburger:hover { background: var(--bg-card); }
 
@@ -757,8 +774,11 @@
         }
         .daily-blind-close:hover { color:#38bdf8; border-color:#38bdf8; box-shadow:0 0 20px rgba(56,189,248,0.38); }
         .blind-stage {
-            position:relative; width:600px; height:400px; display:flex; align-items:center; justify-content:center;
-            isolation:isolate; overflow:visible; --blind-i-final-x:calc(50% + 78px);
+            position:relative; width:800px; height:520px; display:flex; align-items:center; justify-content:center;
+            isolation:isolate; overflow:visible;
+            --blind-i-final-x:calc(50% + 63px); --blind-dot-y:188px;
+            --blind-marble-mid-x:58px; --blind-marble-mid-y:92px;
+            --blind-marble-dx:63px; --blind-marble-dy:107px;
         }
         .blind-stage::before {
             content:''; position:absolute; inset:-24px; opacity:0; pointer-events:none;
@@ -776,16 +796,16 @@
         .blind-stage.phase-result::before { opacity:0; }
 
         .blind-controller {
-            position:absolute; top:72px; left:50%; width:260px; height:112px; transform:translateX(-180%);
+            position:absolute; top:94px; left:50%; width:338px; height:146px; transform:translateX(-180%);
             opacity:0; filter:drop-shadow(0 0 15px rgba(56,189,248,0.85));
         }
         .blind-controller::before {
-            content:''; position:absolute; inset:22px 38px 16px; border:3px solid #38bdf8; border-radius:34px;
+            content:''; position:absolute; inset:29px 49px 21px; border:4px solid #38bdf8; border-radius:44px;
             background:rgba(15,23,42,0.72); box-shadow:0 0 15px #38bdf8, inset 0 0 18px rgba(56,189,248,0.14);
         }
         .blind-controller::after {
-            content:''; position:absolute; left:14px; right:14px; bottom:8px; height:72px;
-            border:3px solid #38bdf8; border-top:0; border-radius:30px 30px 46px 46px;
+            content:''; position:absolute; left:18px; right:18px; bottom:10px; height:94px;
+            border:4px solid #38bdf8; border-top:0; border-radius:39px 39px 60px 60px;
             clip-path:polygon(0 20%, 24% 0, 76% 0, 100% 20%, 90% 100%, 10% 100%);
             background:rgba(15,23,42,0.38); box-shadow:0 0 15px #38bdf8;
         }
@@ -795,21 +815,21 @@
         .blind-stage.phase-scan .blind-controller,
         .blind-stage.phase-marble .blind-controller { opacity:1; transform:translateX(-50%); }
         .blind-dpad, .blind-dpad::before, .blind-dpad::after {
-            position:absolute; background:#0f172a; border:2px solid #38bdf8; border-radius:6px;
+            position:absolute; background:#0f172a; border:3px solid #38bdf8; border-radius:8px;
             box-shadow:0 0 12px rgba(56,189,248,0.72); z-index:2;
         }
-        .blind-dpad { left:70px; top:56px; width:34px; height:12px; }
-        .blind-dpad::before { content:''; left:9px; top:-11px; width:12px; height:34px; }
-        .blind-dpad::after { content:''; left:-2px; top:-2px; width:34px; height:12px; opacity:0; }
-        .blind-abxy { position:absolute; right:58px; top:48px; width:72px; height:54px; z-index:2; }
+        .blind-dpad { left:91px; top:73px; width:44px; height:16px; }
+        .blind-dpad::before { content:''; left:11px; top:-14px; width:16px; height:44px; }
+        .blind-dpad::after { content:''; left:-3px; top:-3px; width:44px; height:16px; opacity:0; }
+        .blind-abxy { position:absolute; right:75px; top:62px; width:94px; height:70px; z-index:2; }
         .blind-abxy span {
-            position:absolute; width:14px; height:14px; border-radius:50%; background:#fff;
+            position:absolute; width:18px; height:18px; border-radius:50%; background:#fff;
             box-shadow:0 0 8px rgba(255,255,255,0.5);
         }
-        .blind-abxy span:nth-child(1) { left:28px; top:0; }
-        .blind-abxy span:nth-child(2) { left:54px; top:20px; }
-        .blind-abxy span:nth-child(3) { left:28px; top:40px; }
-        .blind-abxy span:nth-child(4) { left:2px; top:20px; }
+        .blind-abxy span:nth-child(1) { left:36px; top:0; }
+        .blind-abxy span:nth-child(2) { left:70px; top:26px; }
+        .blind-abxy span:nth-child(3) { left:36px; top:52px; }
+        .blind-abxy span:nth-child(4) { left:3px; top:26px; }
         .blind-stage.phase-controller .blind-abxy span { animation:abxyBlink 0.28s ease forwards; }
         .blind-stage.phase-controller .blind-abxy span:nth-child(1) { animation-delay:0.82s; }
         .blind-stage.phase-controller .blind-abxy span:nth-child(2) { animation-delay:0.92s; }
@@ -817,13 +837,13 @@
         .blind-stage.phase-controller .blind-abxy span:nth-child(4) { animation-delay:1.12s; }
 
         .blind-scope {
-            position:absolute; top:16px; left:50%; width:92px; height:92px; margin-left:-46px;
-            opacity:0; transform:scale(0); border:2px dashed rgba(56,189,248,0.5); border-radius:50%;
+            position:absolute; top:21px; left:50%; width:120px; height:120px; margin-left:-60px;
+            opacity:0; transform:scale(0); border:3px dashed rgba(56,189,248,0.5); border-radius:50%;
             box-shadow:0 0 18px rgba(56,189,248,0.38);
         }
         .blind-scope::before,
         .blind-scope::after {
-            content:''; position:absolute; left:50%; top:50%; width:84px; height:2px;
+            content:''; position:absolute; left:50%; top:50%; width:109px; height:3px;
             background:#38bdf8; border-radius:999px; transform-origin:center;
             box-shadow:0 0 10px rgba(56,189,248,0.85);
         }
@@ -832,31 +852,21 @@
         .blind-stage.phase-scan .blind-scope { animation:scopeSpin 1s ease forwards; }
         .blind-stage.phase-marble .blind-scope { opacity:1; transform:scale(1) rotate(360deg); }
 
-        .blind-i {
-            position:absolute; left:70%; top:132px; width:6px; height:50px; border-radius:999px;
-            background:#fff; opacity:0; box-shadow:none;
-        }
-        .blind-stage.phase-marble .blind-i,
-        .blind-stage.phase-brand .blind-i,
-        .blind-stage.phase-slogan .blind-i { opacity:1; }
-        .blind-stage.phase-marble .blind-i.hit { box-shadow:0 0 18px #38bdf8, 0 0 32px rgba(56,189,248,0.7); }
-        .blind-stage.phase-brand .blind-i { animation:iMoveLeft 0.7s ease forwards; }
-        .blind-stage.phase-slogan .blind-i { left:var(--blind-i-final-x); box-shadow:0 0 16px #38bdf8; }
         .blind-marble {
-            position:absolute; left:50%; top:62px; width:18px; height:18px; border-radius:50%;
-            margin-left:-9px; margin-top:-9px; opacity:0; background:#a855f7;
+            position:absolute; left:50%; top:81px; width:24px; height:24px; border-radius:50%;
+            margin-left:-12px; margin-top:-12px; opacity:0; background:#a855f7;
             box-shadow:0 0 20px #a855f7;
         }
         .blind-marble::after {
-            content:''; position:absolute; right:12px; top:7px; width:56px; height:4px; border-radius:999px;
+            content:''; position:absolute; right:16px; top:9px; width:73px; height:5px; border-radius:999px;
             background:linear-gradient(90deg, transparent, rgba(168,85,247,0.9));
         }
         .blind-stage.phase-marble .blind-marble { animation:marbleFly 0.5s ease-in forwards; animation-delay:0.1s; }
-        .blind-marble.docked { opacity:1; left:70%; top:124px; transform:none; background:#38bdf8; box-shadow:0 0 22px #38bdf8; }
+        .blind-marble.docked { opacity:1; left:var(--blind-i-final-x); top:var(--blind-dot-y); transform:none; background:#38bdf8; box-shadow:0 0 24px #38bdf8, 0 0 40px rgba(56,189,248,0.62); }
         .blind-marble.docked::after { display:none; }
         .blind-stage.phase-marble .blind-marble.docked { animation:none; }
-        .blind-stage.phase-brand .blind-marble.docked { animation:dotMoveLeft 0.7s ease forwards; }
-        .blind-stage.phase-slogan .blind-marble.docked { left:var(--blind-i-final-x); top:124px; animation:none; }
+        .blind-stage.phase-brand .blind-marble.docked,
+        .blind-stage.phase-slogan .blind-marble.docked { left:var(--blind-i-final-x); top:var(--blind-dot-y); animation:none; }
         .blind-stage.phase-box .blind-marble,
         .blind-stage.phase-result .blind-marble { opacity:0; animation:none; }
 
@@ -869,10 +879,10 @@
         .blind-particle.burst { animation:blindBurst 0.78s cubic-bezier(0.12, 0.86, 0.22, 1) forwards; }
 
         .blind-brand {
-            position:absolute; left:50%; top:144px; display:flex; align-items:center; justify-content:center;
-            font-family:'Orbitron', sans-serif; font-size:50px; line-height:1; font-weight:900; letter-spacing:0;
+            position:absolute; left:50%; top:190px; display:flex; align-items:center; justify-content:center;
+            font-family:'Orbitron', sans-serif; font-size:66px; line-height:1; font-weight:900; letter-spacing:0;
             color:#fff; opacity:0; transform:translateX(-50%);
-            padding:8px 14px; border-radius:18px;
+            padding:10px 18px; border-radius:22px;
             text-shadow:0 0 10px rgba(255,255,255,0.24), 0 0 24px rgba(56,189,248,0.34);
         }
         .blind-brand span { display:inline-block; opacity:0; transform:translateX(80px); }
@@ -880,6 +890,9 @@
         .blind-brand span:nth-child(5),
         .blind-brand span:nth-child(7) { color:#38bdf8; text-shadow:0 0 14px rgba(56,189,248,0.88), 0 0 30px rgba(56,189,248,0.38); }
         .blind-brand span:nth-child(6) { color:#a855f7; text-shadow:0 0 14px rgba(168,85,247,0.88), 0 0 28px rgba(168,85,247,0.36); }
+        .blind-brand-i {
+            font-family:'Inter', sans-serif; font-weight:900; min-width:0.18em; transform:translateX(80px) scaleY(0.98);
+        }
         .blind-stage.phase-brand .blind-brand,
         .blind-stage.phase-slogan .blind-brand,
         .blind-stage.phase-box .blind-brand { opacity:1; }
@@ -901,15 +914,15 @@
             mix-blend-mode:screen; animation:brandSweep 0.48s ease forwards; animation-delay:0.82s;
         }
         .blind-line {
-            position:absolute; left:50%; top:216px; width:120px; height:2px; transform:translateX(-50%) scaleX(0);
+            position:absolute; left:50%; top:282px; width:156px; height:3px; transform:translateX(-50%) scaleX(0);
             transform-origin:left center; background:#a855f7; box-shadow:0 0 16px rgba(168,85,247,0.75); opacity:0;
         }
         .blind-stage.phase-brand .blind-line { opacity:1; animation:blindLineGrow 0.4s ease forwards; animation-delay:0.82s; }
         .blind-stage.phase-slogan .blind-line,
         .blind-stage.phase-box .blind-line { opacity:1; transform:translateX(-50%) scaleX(1); }
         .blind-slogan {
-            position:absolute; left:50%; top:234px; transform:translateX(-50%); opacity:0;
-            color:#fff; font-size:18px; line-height:1.4; text-shadow:0 0 8px rgba(255,255,255,0.3);
+            position:absolute; left:50%; top:305px; transform:translateX(-50%); opacity:0;
+            color:#fff; font-size:23px; line-height:1.4; text-shadow:0 0 8px rgba(255,255,255,0.3);
             white-space:nowrap;
         }
         .blind-stage.phase-slogan .blind-slogan { animation:sloganAppear 1.5s ease forwards; }
@@ -920,25 +933,25 @@
 
         .blind-box-wrap {
             position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) scale(0); opacity:0;
-            display:flex; flex-direction:column; align-items:center; gap:18px;
+            display:flex; flex-direction:column; align-items:center; gap:22px;
         }
         .blind-stage.phase-box .blind-box-wrap { animation:blindBoxPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
         .blind-box {
-            width:180px; height:180px; border-radius:20px; border:3px solid #38bdf8;
+            width:234px; height:234px; border-radius:24px; border:4px solid #38bdf8;
             background:rgba(15,15,15,0.9); display:flex; align-items:center; justify-content:center;
-            color:#fff; font-family:'Orbitron', sans-serif; font-size:64px; font-weight:900;
+            color:#fff; font-family:'Orbitron', sans-serif; font-size:84px; font-weight:900;
             text-shadow:0 0 18px rgba(255,255,255,0.72);
             box-shadow:0 0 25px #38bdf8, 0 0 50px #a855f7, inset 0 0 30px rgba(56,189,248,0.12);
             animation:blindBoxFloat 2s ease-in-out infinite, blindBoxGlow 1.8s ease-in-out infinite;
             position:relative; overflow:hidden;
         }
         .blind-box::before {
-            content:''; position:absolute; left:50%; top:0; bottom:0; width:16px; transform:translateX(-50%);
+            content:''; position:absolute; left:50%; top:0; bottom:0; width:21px; transform:translateX(-50%);
             background:linear-gradient(180deg, rgba(168,85,247,0.95), rgba(56,189,248,0.7));
             box-shadow:0 0 16px rgba(168,85,247,0.7);
         }
         .blind-box::after {
-            content:''; position:absolute; left:0; right:0; top:50%; height:16px; transform:translateY(-50%);
+            content:''; position:absolute; left:0; right:0; top:50%; height:21px; transform:translateY(-50%);
             background:linear-gradient(90deg, rgba(168,85,247,0.95), rgba(56,189,248,0.7));
             box-shadow:0 0 16px rgba(56,189,248,0.7);
         }
@@ -946,10 +959,10 @@
         .blind-box.shake { animation:blindShake 0.4s ease, blindBoxGlow 1.8s ease-in-out infinite; }
         .blind-box.explode { animation:blindExplode 0.24s ease forwards; }
         .blind-crack {
-            position:absolute; left:50%; top:50%; width:72px; height:2px; background:#fff; border-radius:999px;
+            position:absolute; left:50%; top:50%; width:94px; height:3px; background:#fff; border-radius:999px;
             transform:translate(-50%, -50%) rotate(var(--r, 20deg)); box-shadow:0 0 8px rgba(255,255,255,0.8); z-index:2;
         }
-        .blind-box-hint { color:rgba(255,255,255,0.7); font-size:14px; line-height:1.4; }
+        .blind-box-hint { color:rgba(255,255,255,0.7); font-size:16px; line-height:1.4; }
 
         .blind-result-card {
             position:absolute; left:50%; top:50%; transform:translate(-50%, -44%) scale(0.92);
@@ -983,11 +996,9 @@
         @keyframes scopeSpin { 0%{opacity:0; transform:scale(0) rotate(0);} 15%{opacity:1; transform:scale(1) rotate(0);} 100%{opacity:1; transform:scale(1) rotate(360deg);} }
         @keyframes marbleFly {
             0%{opacity:1; transform:translate(0,0); background:#a855f7;}
-            72%{opacity:1; transform:translate(110px, 48px); background:#a855f7;}
-            100%{opacity:1; transform:translate(120px, 62px); background:#38bdf8;}
+            72%{opacity:1; transform:translate(var(--blind-marble-mid-x), var(--blind-marble-mid-y)); background:#a855f7;}
+            100%{opacity:1; transform:translate(var(--blind-marble-dx), var(--blind-marble-dy)); background:#38bdf8;}
         }
-        @keyframes iMoveLeft { to{left:var(--blind-i-final-x); box-shadow:0 0 16px #38bdf8;} }
-        @keyframes dotMoveLeft { to{left:var(--blind-i-final-x); top:124px; box-shadow:0 0 22px #38bdf8;} }
         @keyframes brandLetterIn { to{opacity:1; transform:translateX(0);} }
         @keyframes brandSweep { 0%{opacity:0; transform:translateX(-80%);} 35%{opacity:0.55;} 100%{opacity:0; transform:translateX(80%);} }
         @keyframes blindLineGrow { to{transform:translateX(-50%) scaleX(1);} }
@@ -1279,7 +1290,9 @@
             .hamburger { width:38px; height:38px; flex:0 0 auto; }
             .logo { flex:1 1 auto; min-width:0; font-size:1.1rem; }
             .logo-text { font-size:1rem; }
-            .logo-img { width:38px; height:38px; }
+            .logo-img,
+            .logo-img-fallback { width:38px; height:38px; border-radius:13px; }
+            .logo-img.using-wide-fallback { width:min(150px, 34vw); height:38px; }
             .lang-btn { width:40px; height:40px; padding:0; justify-content:center; }
             .lang-btn span:not(:first-child) { display:none; }
             .search-box { width:100%; max-width:none; }
@@ -1399,22 +1412,35 @@
             }
             .daily-blind-modal { padding:18px; }
             .daily-blind-close { top:14px; right:14px; width:38px; height:38px; }
-            .blind-stage { width:90vw; height:min(70vh, 420px); min-height:330px; }
-            .blind-controller { width:210px; height:92px; top:64px; }
-            .blind-controller::before { inset:18px 32px 13px; border-radius:28px; }
-            .blind-controller::after { left:12px; right:12px; bottom:6px; height:58px; }
-            .blind-dpad { left:55px; top:47px; width:28px; height:10px; }
-            .blind-dpad::before { left:7px; top:-9px; width:10px; height:28px; }
-            .blind-abxy { right:44px; top:40px; transform:scale(0.88); transform-origin:center; }
-            .blind-scope { top:18px; width:74px; height:74px; margin-left:-37px; }
+            .blind-stage {
+                width:95vw; height:min(70vh, 500px); min-height:380px;
+                --blind-i-final-x:calc(50% + min(10.5vw, 41px)); --blind-dot-y:165px;
+                --blind-marble-mid-x:min(9.8vw, 38px); --blind-marble-mid-y:86px;
+                --blind-marble-dx:min(10.5vw, 41px); --blind-marble-dy:101px;
+            }
+            .blind-controller { width:252px; height:110px; top:70px; }
+            .blind-controller::before { inset:21px 37px 16px; border-width:3px; border-radius:34px; }
+            .blind-controller::after { left:14px; right:14px; bottom:8px; height:70px; border-width:3px; }
+            .blind-dpad { left:68px; top:55px; width:34px; height:12px; }
+            .blind-dpad::before { left:8px; top:-11px; width:12px; height:34px; }
+            .blind-abxy { right:56px; top:47px; width:72px; height:54px; transform:none; }
+            .blind-abxy span { width:14px; height:14px; }
+            .blind-abxy span:nth-child(1) { left:28px; top:0; }
+            .blind-abxy span:nth-child(2) { left:54px; top:20px; }
+            .blind-abxy span:nth-child(3) { left:28px; top:40px; }
+            .blind-abxy span:nth-child(4) { left:2px; top:20px; }
+            .blind-scope { top:20px; width:88px; height:88px; margin-left:-44px; border-width:2px; }
             .blind-scope::before,
-            .blind-scope::after { width:66px; }
-            .blind-i { top:126px; height:42px; }
-            .blind-marble.docked { top:119px; }
-            .blind-brand { top:142px; font-size:32px; }
-            .blind-line { top:196px; width:104px; }
-            .blind-slogan { top:214px; font-size:14px; }
-            .blind-box { width:clamp(120px, 36vw, 150px); height:clamp(120px, 36vw, 150px); font-size:52px; border-radius:18px; }
+            .blind-scope::after { width:78px; height:2px; }
+            .blind-marble { top:64px; width:18px; height:18px; margin-left:-9px; margin-top:-9px; }
+            .blind-marble::after { right:12px; top:7px; width:56px; height:4px; }
+            .blind-brand { top:166px; font-size:43px; padding:8px 12px; }
+            .blind-line { top:226px; width:126px; height:2px; }
+            .blind-slogan { top:246px; font-size:16px; }
+            .blind-box { width:clamp(154px, 43vw, 188px); height:clamp(154px, 43vw, 188px); font-size:66px; border-radius:20px; border-width:3px; }
+            .blind-box::before { width:17px; }
+            .blind-box::after { height:17px; }
+            .blind-box-hint { font-size:14px; }
             .blind-result-card { padding:18px; }
             .blind-result-cover { height:145px; }
             .blind-result-desc { font-size:14px; }
@@ -1427,7 +1453,9 @@
             :root { --navbar-height:112px; }
             .nav-left { min-width:0; }
             .logo-text { font-size:0.9rem; }
-            .logo-img { width:34px; height:34px; }
+            .logo-img,
+            .logo-img-fallback { width:34px; height:34px; border-radius:12px; }
+            .logo-img.using-wide-fallback { width:min(132px, 44vw); height:34px; }
             .search-box { max-width:none; }
             .mobile-blind-float {
                 right:12px; bottom:calc(82px + env(safe-area-inset-bottom,0));
@@ -1498,7 +1526,8 @@
         <div class="nav-left">
             <button class="hamburger" id="sidebarToggleBtn" onclick="toggleSidebar()" aria-label="收起侧导航" title="收起侧导航">☰</button>
             <a href="#" class="logo" onclick="resetToHome(); return false;">
-                <img class="logo-img" src="assets/fuunio-logo-mark-transparent.png" alt="" aria-hidden="true">
+                <img class="logo-img" src="./assets/fuunio-logo-mark-transparent.png" alt="" aria-hidden="true" data-fallback-src="./fuunio-logo-white-glow.png" onerror="handleLogoImageError(this)">
+                <span class="logo-img-fallback" hidden aria-hidden="true">F</span>
                 <span class="logo-text">
                     <span>Fuunio</span>
                 </span>
@@ -1702,9 +1731,8 @@
                 <div class="blind-abxy"><span></span><span></span><span></span><span></span></div>
             </div>
             <div class="blind-scope" aria-hidden="true"></div>
-            <div class="blind-i" id="blindI" aria-hidden="true"></div>
             <div class="blind-marble" id="blindMarble" aria-hidden="true"></div>
-            <div class="blind-brand" aria-hidden="true"><span>F</span><span>u</span><span>u</span><span>n</span><span>i</span><span>o</span><span>!</span></div>
+            <div class="blind-brand" aria-hidden="true"><span>F</span><span>u</span><span>u</span><span>n</span><span class="blind-brand-i">ı</span><span>o</span><span>!</span></div>
             <div class="blind-line" aria-hidden="true"></div>
             <div class="blind-slogan" id="blindSlogan">发现你的下一款挚爱</div>
             <div class="blind-box-wrap" id="blindBoxWrap">
@@ -2100,6 +2128,7 @@
                 playInNewWindow: '在新窗口中游玩',
                 rollAgain: '🎲 再摇一次',
                 gameIntro: '📖 游戏介绍',
+                gameIntroFallback: '暂无更详细的介绍，先用这段简介快速了解这款游戏。',
                 recommendTitle: '猜你喜欢',
                 copyright: '© 2026 Fuunio. All rights reserved. 未经许可禁止转载、复制、镜像本站内容与代码。',
                 footerText: '发现你的下一款挚爱',
@@ -2329,6 +2358,7 @@
                 playInNewWindow: 'Play in new window',
                 rollAgain: '🎲 Roll Again',
                 gameIntro: '📖 Game Info',
+                gameIntroFallback: 'A full translated write-up is not available yet. Here is the localized summary for this game.',
                 recommendTitle: 'You Might Also Like',
                 copyright: '© 2026 Fuunio. All rights reserved. Unauthorized reposting, copying, mirroring, or reuse of site content and code is prohibited.',
                 footerText: 'Discover your next favorite game',
@@ -2558,6 +2588,7 @@
                 playInNewWindow: '新しいウィンドウでプレイ',
                 rollAgain: '🎲 もう一度振る',
                 gameIntro: '📖 ゲーム紹介',
+                gameIntroFallback: '詳しい翻訳紹介はまだありません。まずはこのゲームのローカライズ済み概要をご覧ください。',
                 recommendTitle: 'おすすめ',
                 copyright: '© 2026 Fuunio. All rights reserved. サイトの内容とコードの無断転載、複製、ミラーリング、再利用を禁じます。',
                 footerText: '次のお気に入りを発見',
@@ -2755,6 +2786,26 @@
         };
 
         let currentLang = 'zh';
+        let activeModalGameId = null;
+        let activeModalMode = null;
+
+        function handleLogoImageError(img) {
+            const fallback = img.dataset.fallbackSrc;
+            const logo = img.closest('.logo');
+            if(fallback) {
+                img.classList.add('using-wide-fallback');
+                if(logo) logo.classList.add('using-wide-logo');
+                img.removeAttribute('data-fallback-src');
+                img.src = fallback;
+                return;
+            }
+            img.hidden = true;
+            img.classList.remove('using-wide-fallback');
+            if(logo) logo.classList.remove('using-wide-logo');
+            const fallbackMark = img.nextElementSibling;
+            if(fallbackMark) fallbackMark.hidden = false;
+        }
+
         const GAMES_DATA = [
             { id:0, name:'坦克大作战', icon:'🎮', category:'io', tags:['休闲','多人'], url:'https://arras.io/', isHot:true, isNew:false },
             { id:1, name:'自由钢琴', icon:'🎹', category:'casual', tags:['休闲','音乐'], url:'https://www.autopiano.cn/', isHot:false, isNew:true },
@@ -4396,6 +4447,7 @@
                 renderGames(games.slice(0, state.displayedGames));
                 if(document.getElementById('gameModal').classList.contains('active')) {
                     updateModalButtons();
+                    refreshActiveGameModal();
                 }
             }, 200);
             localStorage.setItem('preferredLang', lang);
@@ -4523,6 +4575,21 @@
             document.getElementById('modalRerollBtn').innerHTML = t.rollAgain;
             document.getElementById('modalIntroBtn').innerHTML = t.gameIntro;
             document.getElementById('recommendSection').querySelector('.recommend-title').textContent = t.recommendTitle;
+        }
+
+        function refreshActiveGameModal() {
+            if(activeModalGameId === null || activeModalGameId === undefined) return;
+            const game = GAMES_DATA.find(g => g.id === activeModalGameId);
+            if(!game) return;
+            const t = LANG[currentLang];
+            document.getElementById('modalTitle').textContent = activeModalMode === 'dice' ? '🎲 ' + game.name : game.name;
+            document.getElementById('modalIcon').textContent = game.icon;
+            if(activeModalMode === 'intro') {
+                document.getElementById('modalDesc').innerHTML = renderGameIntroContent(game, t);
+            } else {
+                document.getElementById('modalDesc').textContent = t.gameDescs[game.name] || '';
+            }
+            renderRecommendations(game.id);
         }
 
         function parseImageSize(size) {
@@ -4820,6 +4887,16 @@
         }
 
         function renderGameIntroContent(game, t) {
+            if(currentLang !== 'zh') {
+                const desc = t.gameDescs[game.name] || t.blindFallbackDesc || '';
+                const fallback = t.gameIntroFallback || '';
+                return `
+                    <div class="intro-summary">${escapeHTML(desc)}</div>
+                    <div class="intro-section">
+                        <p class="intro-p">${escapeHTML(fallback)}</p>
+                    </div>
+                `;
+            }
             const paragraphs = GAME_INTROS[game.name];
             if(!paragraphs || !paragraphs.length) {
                 return `<p class="intro-summary">${escapeHTML(t.gameDescs[game.name] || '')}</p>`;
@@ -5163,7 +5240,6 @@
             stage.querySelectorAll('.blind-particle').forEach(p => p.remove());
             document.getElementById('blindResultCard').className = 'blind-result-card';
             document.getElementById('blindResultCard').innerHTML = '';
-            document.getElementById('blindI').classList.remove('hit');
             document.getElementById('blindMarble').classList.remove('docked');
             box.classList.remove('shake', 'explode');
             box.querySelectorAll('.blind-crack').forEach(c => c.remove());
@@ -5211,9 +5287,9 @@
             queueBlindStep(1800, () => {
                 setBlindPhase('phase-marble');
                 queueBlindStep(600, () => {
-                    document.getElementById('blindI').classList.add('hit');
                     document.getElementById('blindMarble').classList.add('docked');
-                    createBlindParticles(18, 70, 31, false);
+                    const dot = getBlindMarbleCenterPercent();
+                    createBlindParticles(18, dot.x, dot.y, false);
                 });
             });
             queueBlindStep(2600, () => setBlindPhase('phase-brand'));
@@ -5222,6 +5298,18 @@
                 setBlindPhase('phase-box');
                 gatherBlindParticles();
             });
+        }
+
+        function getBlindMarbleCenterPercent() {
+            const stage = document.getElementById('blindStage');
+            const marble = document.getElementById('blindMarble');
+            const stageRect = stage.getBoundingClientRect();
+            const marbleRect = marble.getBoundingClientRect();
+            if(!stageRect.width || !stageRect.height) return { x: 63, y: 31 };
+            return {
+                x: ((marbleRect.left + marbleRect.width / 2 - stageRect.left) / stageRect.width) * 100,
+                y: ((marbleRect.top + marbleRect.height / 2 - stageRect.top) / stageRect.height) * 100
+            };
         }
 
         function createBlindParticles(count, xPercent=50, yPercent=50, burst=false) {
@@ -5381,6 +5469,8 @@
             setTimeout(() => {
                 floatDiv.remove();
                 let t = LANG[currentLang];
+                activeModalGameId = game.id;
+                activeModalMode = 'dice';
                 document.getElementById('modalTitle').textContent = '🎲 ' + game.name;
                 document.getElementById('modalIcon').textContent = game.icon;
                 document.getElementById('modalDesc').textContent = t.gameDescs[game.name] || '';
@@ -5405,6 +5495,8 @@
             let game = GAMES_DATA.find(g=>g.id===gameId);
             if(!game) return;
             let t = LANG[currentLang];
+            activeModalGameId = game.id;
+            activeModalMode = 'intro';
             document.getElementById('modalTitle').textContent = game.name;
             document.getElementById('modalIcon').textContent = game.icon;
             document.getElementById('modalDesc').innerHTML = renderGameIntroContent(game, t);
@@ -5420,6 +5512,8 @@
             document.getElementById('gameModal').classList.remove('active');
             document.getElementById('recommendGrid').innerHTML = '';
             document.getElementById('recommendSection').style.display = 'none';
+            activeModalGameId = null;
+            activeModalMode = null;
         }
         function playGame(id) {
             let g = GAMES_DATA.find(g=>g.id===id);
