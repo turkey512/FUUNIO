@@ -1,59 +1,36 @@
 ```markdown
-# Fuunio - 在线游戏聚合平台
+# 🎮 Fuunio - 在线游戏聚合平台
 
-一个专注于 .io 游戏及轻量网页游戏的精品导航平台。
+> 发现你的下一款挚爱
 
-## 📁 项目目录结构
+Fuunio 是一个专注于 .io 游戏及轻量网页游戏的精品导航平台。我们不存储、不托管任何游戏文件，仅提供游戏官方网站的链接入口，帮助您以最直接的方式发现并进入心仪的游戏。
 
-```
-Fuunio/
-├── index.html                    # 主页面
-├── README.md                     # 项目说明
-│
-├── assets/                       # 静态资源
-│   ├── fonts/                    # 字体文件
-│   ├── images/                   # 图片资源
-│   └── favicon.ico               # 网站图标
-│
-├── css/                          # 样式文件
-│   └── style.css                 # 主样式表
-│
-├── js/                           # JavaScript 脚本
-│   ├── data/                     # 数据文件
-│   │   └── games.json            # 80 款游戏数据
-│   │
-│   ├── config.js                 # Supabase 配置
-│   ├── state.js                  # 用户状态管理
-│   ├── auth.js                   # 登录/注册/登出
-│   ├── stats.js                  # 游玩统计 & 后台面板
-│   ├── reactions.js              # 表情功能
-│   ├── games.js                  # 游戏数据加载 & 渲染
-│   ├── banner.js                 # 轮播图
-│   ├── modal.js                  # 游戏弹窗
-│   ├── sidebar.js                # 侧边栏
-│   ├── dice.js                   # 骰子随机（随缘玩）
-│   ├── blindbox.js               # 每日盲盒
-│   ├── fufu.js                   # 福福宠物
-│   ├── pages.js                  # 页面导航
-│   ├── i18n.js                   # 多语言
-│   ├── policy.js                 # 政策弹窗
-│   └── main.js                   # 入口文件
-│
-├── .env.example                  # 环境变量示例
-└── .gitignore                    # Git 忽略文件
-```
+---
 
-## 📄 核心文件说明
+## 📁 项目结构
 
-| 文件 | 说明 |
-|------|------|
-| `index.html` | 主页面，包含所有 HTML 结构 |
-| `js/data/games.json` | 80 款游戏数据（名称、分类、标签、链接等） |
-| `js/config.js` | Supabase 配置（URL、Anon Key） |
-| `js/auth.js` | 用户登录/注册/登出逻辑 |
-| `js/games.js` | 游戏数据加载、过滤、渲染 |
-| `js/i18n.js` | 多语言（中文、英文、日语） |
-| `js/main.js` | 入口文件，初始化所有模块 |
+- **index.html** - 主页面
+- **assets/** - 静态资源（字体、图片、图标）
+- **css/style.css** - 主样式表
+- **js/data/games.json** - 80 款游戏数据
+- **js/config.js** - Supabase 配置
+- **js/state.js** - 用户状态管理
+- **js/auth.js** - 登录/注册/登出
+- **js/stats.js** - 游玩统计 & 后台面板
+- **js/reactions.js** - 表情功能
+- **js/games.js** - 游戏数据加载 & 渲染
+- **js/banner.js** - 轮播图
+- **js/modal.js** - 游戏弹窗
+- **js/sidebar.js** - 侧边栏
+- **js/dice.js** - 骰子随机（随缘玩）
+- **js/blindbox.js** - 每日盲盒
+- **js/fufu.js** - 福福宠物
+- **js/pages.js** - 页面导航（新品尝鲜/创意集市/兴趣营地/游戏公海）
+- **js/i18n.js** - 多语言（中/英/日）
+- **js/policy.js** - 政策弹窗（关于/联系我们/FAQ/条款/隐私/Cookie）
+- **js/main.js** - 入口文件
+
+---
 
 ## 🚀 快速开始
 
@@ -67,9 +44,8 @@ python3 -m http.server 5500
 
 ### 2. 配置 Supabase
 
-1. 复制 `.env.example` 为 `.env`
-2. 填写你的 Supabase 配置
-3. 或在 `js/config.js` 中直接配置
+1. 在 `js/config.js` 中填写你的 Supabase URL 和 Anon Key
+2. 或在 Supabase Dashboard 中配置
 
 ### 3. 打包部署
 
@@ -78,15 +54,19 @@ python3 -m http.server 5500
 tar -czf fuunio.tar.gz index.html assets/ css/ js/
 ```
 
+---
+
 ## 🛠️ 技术栈
 
 - HTML5
-- CSS3 (Steam 暗色主题)
-- JavaScript (ES6+)
-- Supabase (Auth + Database)
-- Three.js (3D 宠物)
+- CSS3（Steam 暗色主题）
+- JavaScript（ES6+）
+- Supabase（Auth + Database）
+- Three.js（3D 宠物）
 
-## 📝 功能列表
+---
+
+## ✨ 功能列表
 
 - ✅ 游戏分类浏览（全部/热门/新游戏/动作/射击/生存/休闲/.io/策略/竞速）
 - ✅ 实时搜索
@@ -100,12 +80,17 @@ tar -czf fuunio.tar.gz index.html assets/ css/ js/
 - ✅ 3D 宠物（福福）
 - ✅ 响应式设计（PC/平板/手机）
 
+---
+
 ## 📧 联系方式
 
-- 邮箱: fuunio@qq.com
-- 玩家大厅: [QQ 频道](https://pd.qq.com/s/af6be3xv8?b=9)
+- 邮箱：fuunio@qq.com
+- 玩家大厅：[QQ 频道](https://pd.qq.com/s/af6be3xv8?b=9)
+
+---
 
 ## 📄 版权
 
 © 2026 Fuunio. All rights reserved.
 ```
+
